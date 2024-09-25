@@ -1,34 +1,33 @@
 class Solution {
     public int romanToInt(String s) {
-        // Step 1: Create a map to store Roman numerals and their values
-        HashMap<Character, Integer> romanMap = new HashMap<>();
-        romanMap.put('I', 1);
-        romanMap.put('V', 5);
-        romanMap.put('X', 10);
-        romanMap.put('L', 50);
-        romanMap.put('C', 100);
-        romanMap.put('D', 500);
-        romanMap.put('M', 1000);
+        int total = 0;
+        int length = s.length();
 
-        // Step 2: Initialize total sum and length of the string
-        int total = 0; // This will hold the final integer value
-        int length = s.length(); // Get the length of the Roman numeral string
-
-        // Step 3: Traverse the Roman numeral string
         for (int i = 0; i < length; i++) {
-            int currentValue = romanMap.get(s.charAt(i)); // Get the value of the current character
+            int currentValue = valueOfRoman(s.charAt(i));
 
-            // Step 4: If this is not the last character and the current value is less than the next value
-            if (i < length - 1 && currentValue < romanMap.get(s.charAt(i + 1))) {
-                // Subtract the current value
-                total -= currentValue;
+            // Check if the next character has a larger value (indicating subtraction)
+            if (i < length - 1 && currentValue < valueOfRoman(s.charAt(i + 1))) {
+                total -= currentValue;  // Subtract if smaller than the next character
             } else {
-                // Add the current value
-                total += currentValue;
+                total += currentValue;  // Otherwise, add the current value
             }
         }
 
-        // Step 5: Return the total integer value
         return total;
+    }
+
+    // Method to return the integer value for a given Roman numeral
+    private int valueOfRoman(char ch) {
+        switch (ch) {
+            case 'I': return 1;
+            case 'V': return 5;
+            case 'X': return 10;
+            case 'L': return 50;
+            case 'C': return 100;
+            case 'D': return 500;
+            case 'M': return 1000;
+            default: return 0; // Invalid character handling (optional)
+        }
     }
 }
